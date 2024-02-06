@@ -1,0 +1,7 @@
+nibabel
+SimpleITK
+pandas
+numpy
+scipy
+matplotlib
+jupyter

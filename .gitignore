@@ -1,0 +1,40 @@
+bin/
+etc/
+include/
+lib/
+Bibliography/
+share/
+src/
+
+# I don't know how confidential this is, but I'm not going to include it in the repo just in case
+segmentation.nii
+segmentation.nii.gz
+CT.nii
+CT.nii.gz
+
+pyvenv.cfg
+
+# macOS system file
+.DS_Store 
+# Windows system file
+Thumbs.db
+
+*.pyc               # Python compiled files
+*.pyo               # Compiled Python files
+__pycache__/        # Python cache directory
+*.class             # Java class files
+target/             # Maven or Gradle build directory
+node_modules/        # Node.js modules
+
+.idea/              # IntelliJ IDEA project files
+.vscode/            # Visual Studio Code settings
+.cache/             # Generic cache directory
+.tmp/               # Temporary files
+temp/               # Temporary directory
+
+
+.env                # Environment variable configuration
+.config/            # Application configuration
+
+*.log               # Log files
+error.log           # Error log file
