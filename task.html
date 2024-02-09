@@ -7522,28 +7522,20 @@ a.anchor-link {
 <li><a href="#What-is-a-CT-image">What is a CT image, Hounsfield units, windowing and Anatomical planes</a></li>
 <li><a href="#voxels">How we divide space into voxels</a></li>
 <li><a href="#Affine">Affine transformation and coordinates</a></li>
+<li><a href="#reescaling-affine">Why is it necessary to change affine matrix when reescaling the voxels</a></li>
 </ul>
 </li>
 <li><p><a href="#MIP-AVG">MIP and Average operation</a></p>
 </li>
-<li><p><a href="#Computer">Computer</a></p>
+<li><p><a href="#Nifti-images">NIfTI format and NiBabel library</a></p>
+</li>
+<li><p><a href="#solution">Solution to the exercise</a></p>
 <ul>
-<li><a href="#Nifti-images">Nifti images</a></li>
-<li><a href="#Structure-of-the-object">Structure of the object</a></li>
+<li><a href="#solution1">Reescaling and MIP</a></li>
+<li><a href="#volume">Volume</a></li>
 </ul>
 </li>
-<li><p><a href="#Image-visualisation">Image visualisation</a></p>
-<ul>
-<li><a href="#MIP-consists-of-applying-max-function-to-each">MIP consists of applying max function to each ...</a></li>
-</ul>
-</li>
-<li><p><a href="#Calculate-volume">Calculate volume</a></p>
-<ul>
-<li><a href="#Aorta-is-the-largest-artery-in-the-body-that-carries">Aorta is the largest artery in the body that carries...</a></li>
-<li><a href="#We-need-to-find-how-are-the-voxels-that-represent">We need to find how are the voxels that represent...</a></li>
-<li><a href="#Lets-make-a-function-to-see-the-values-that-can">Let's make a function to see the values that can...</a></li>
-<li><a href="#The-only-two-values-that-can-be-found-in-the-array">The only two values that can be found in the array...</a></li>
-</ul>
+<li><p><a href="#inf">Sources of information</a></p>
 </li>
 </ol>
 </div>
@@ -7648,8 +7640,8 @@ and $w_A = M^{-1} \times w_B$ and $w_A$ can be compared with $v_A$</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Why-is-it-necessary-to-change-affine-matrix-when-reescaling-the-voxels?">Why is it necessary to change affine matrix when reescaling the voxels?<a class="anchor-link" href="#Why-is-it-necessary-to-change-affine-matrix-when-reescaling-the-voxels?">¶</a></h2><p>Reescaling voxels can be interprated as affine transformation. Scaling matrices can be written as follows:</p>
-<p>$\R = \begin{pmatrix}
+<h2 id="Why-is-it-necessary-to-change-affine-matrix-when-reescaling-the-voxels?-">Why is it necessary to change affine matrix when reescaling the voxels? <a name="reescaling-affine"></a><a class="anchor-link" href="#Why-is-it-necessary-to-change-affine-matrix-when-reescaling-the-voxels?-">¶</a></h2><p>Reescaling voxels can be interprated as affine transformation. Scaling matrices can be written as follows:</p>
+<p>$R = \begin{pmatrix}
 s_x &amp; 0 &amp; 0 &amp; 0 \\
 0 &amp; s_y &amp; 0 &amp; 0 \\
 0 &amp; 0 &amp; s_z &amp; 0 \\
@@ -7668,7 +7660,7 @@ $M_{\text{new}} = R \times M$ where $R$ is the reescaling matrix and $M$ is the 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="MIP-and-Average-opration-">MIP and Average opration <a name="MIP-AVG"></a><a class="anchor-link" href="#MIP-and-Average-opration-">¶</a></h2><p>A medical image is tipically 3 dimensional $M \in \mathbb{R}^{h \times w \times d}$. So in order to plot a 2d image we need to fix one of the three axis. This implies that we lose information. That is why there are some operations to convert 3D images into 2D images in a certain way to minimize the lost information. In this examples we asume we apply it to the width axis, although it can be applied to any axis.</p>
+<h2 id="MIP-and-Average-operation-">MIP and Average operation <a name="MIP-AVG"></a><a class="anchor-link" href="#MIP-and-Average-operation-">¶</a></h2><p>A medical image is tipically 3 dimensional $M \in \mathbb{R}^{h \times w \times d}$. So in order to plot a 2d image we need to fix one of the three axis. This implies that we lose information. That is why there are some operations to convert 3D images into 2D images in a certain way to minimize the lost information. In this examples we asume we apply it to the width axis, although it can be applied to any axis.</p>
 <h3 id="MIP-operation">MIP operation<a class="anchor-link" href="#MIP-operation">¶</a></h3><p>Mathematically, $MIP: \mathbb{R}^{h \times w \times d} \longrightarrow \mathbb{R}^{h \times w}$. <br/>
 This is achived by applying the max function to the depth axis. Let $i \in {1,...,h}$ represent a layer height, $j \in {1,...,w}$ layer in width and $k \in {1,...,d}$ layer in depth. Then if we fix $k$ we get a matrix: <br/>
 $M_k= \begin{bmatrix} 
@@ -7718,7 +7710,7 @@ In the context of medical imaging the <strong>width</strong> would be the <stron
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="NIfTI-format-and-NiBabel-library">NIfTI format and NiBabel library<a class="anchor-link" href="#NIfTI-format-and-NiBabel-library">¶</a></h2><p>NIfTI format used for storing MRI (Magnetic Resonance Imaging) data. It evolved from the ANALYZE format, addressing its limitations by supporting both 3D and 4D (time series) imaging data, incorporating spatial and temporal units, and allowing for the storage of metadata within the file.
+<h1 id="NIfTI-format-and-NiBabel-library-">NIfTI format and NiBabel library <a name="Nifti-images"></a><a class="anchor-link" href="#NIfTI-format-and-NiBabel-library-">¶</a></h1><p>NIfTI format used for storing MRI (Magnetic Resonance Imaging) data. It evolved from the ANALYZE format, addressing its limitations by supporting both 3D and 4D (time series) imaging data, incorporating spatial and temporal units, and allowing for the storage of metadata within the file.
 In NIfTI files, the structure typically includes a header, an affine matrix, and the data itself.</p>
 <p>Load image:</p>
 <div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'Path'</span><span class="p">)</span>
@@ -7759,7 +7751,18 @@ Access the header:</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Solution-to-the-exercise">Solution to the exercise<a class="anchor-link" href="#Solution-to-the-exercise">¶</a></h1>
+<h1 id="Solution-to-the-exercise-">Solution to the exercise <a name="solution"></a><a class="anchor-link" href="#Solution-to-the-exercise-">¶</a></h1>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Reescaling-and-MIP-">Reescaling and MIP <a name="solution1"></a><a class="anchor-link" href="#Reescaling-and-MIP-">¶</a></h2>
 </div>
 </div>
 </div>
@@ -7923,7 +7926,7 @@ That's the value of the first voxel. It's a Hounsfield unit (HU) value. In this 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Resample-image">Resample image<a class="anchor-link" href="#Resample-image">¶</a></h2>
+<h3 id="Resample-image">Resample image<a class="anchor-link" href="#Resample-image">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8124,7 +8127,7 @@ That's the value of the first voxel. It's a Hounsfield unit (HU) value. In this 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="MIP-operation">MIP operation<a class="anchor-link" href="#MIP-operation">¶</a></h2>
+<h3 id="MIP-operation">MIP operation<a class="anchor-link" href="#MIP-operation">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8286,7 +8289,7 @@ That's the value of the first voxel. It's a Hounsfield unit (HU) value. In this 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Calculate-volume">Calculate volume<a class="anchor-link" href="#Calculate-volume">¶</a></h1>
+<h2 id="Calculate-volume-">Calculate volume <a name="volume"></a><a class="anchor-link" href="#Calculate-volume-">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8577,7 +8580,7 @@ magic           : b'n+1'
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Sources-of-information">Sources of information<a class="anchor-link" href="#Sources-of-information">¶</a></h1><ul>
+<h1 id="Sources-of-information-">Sources of information <a name="inf"></a><a class="anchor-link" href="#Sources-of-information-">¶</a></h1><ul>
 <li>CT image:<ul>
 <li><a href="https://en.wikipedia.org/wiki/CT_scan">https://en.wikipedia.org/wiki/CT_scan</a></li>
 <li><a href="https://www.youtube.com/watch?v=VnpqylFYtqI&amp;t=1s">https://www.youtube.com/watch?v=VnpqylFYtqI&amp;t=1s</a></li>
@@ -8592,7 +8595,18 @@ magic           : b'n+1'
 <li><a href="https://neuraldatascience.io/8-mri/nifti.html">https://neuraldatascience.io/8-mri/nifti.html</a></li>
 </ul>
 </li>
+<li>ChatGPT</li>
 </ul>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 </div>
 </div>
 </div>
